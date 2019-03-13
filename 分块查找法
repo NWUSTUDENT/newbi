@@ -1,0 +1,59 @@
+分块查找要求将列表组织成两种索引顺序结构。
+1、先将列表分成若干子表。一般，块（子表）长度均匀，最后一块可以不满。每块中元素任意排列，即块内无序，但是块间有序。
+2、构建一个索引表。其中每个索引项对应一个块并记录每块的起始位置，以及每块中的最大关键字（或最小关键字）。索引表按照关键字有序排列。
+分块查找基本过程：
+1、将待查关键字k与索引表中的关键字进行比较，以确定待查记录所在的块。具体可用顺序查找或者折半查找进行。
+2、进一步顺序查找法没在相应块内找到关键字为k的元素。因为块内无序。
+
+#include<iostream>
+#define MAX 200
+using namespace std;
+typedef struct{
+    int r[MAX];
+    int length;
+}SStable；//定义顺序表
+
+typedef struct{
+    int key;
+    int start;
+}IndexItem; //定义索引
+typedef struct  
+{  
+    IndexItem elem[40];  
+    int length;  
+}IndexTable;//索引表  
+int Search_Index(SStable &ST,IndexTable &ID,int k)  
+{  
+    int low,high,mid;  
+    int p;    //p用来保存查找的关键字所属的索引中的位置  
+    int s,t;  //s,t分别用来保存查找的关键字所在块的起始和终点位置  
+    low=1;  
+    high=ID.length;  
+    while(low<=high && p<=0)  
+    { //该循环是用对半查找的方法，对索引表进行查找，从而定位要查找的元素所在的块  
+        mid=(low+high)/2;  
+        if(k>ID.elem[mid-1].key && k<ID.elem[mid].key)  
+            p=mid;//判断关键字对应哪个索引位置，就是k比前一个值大，比后一个值小，  
+                    //那个大的就是k对应的索引位置  
+        else  
+        {  
+            if(k<ID.elem[mid].key)  
+                high=mid-1;  
+            else if(k>ID.elem[mid].key)  
+                low=mid+1;  
+            else  
+                p=mid;  
+        }  
+    }  
+    s=ID.elem[p].start;  
+    if(p==ID.length)  
+        t=ST.length;//这里对p的判断很重要，p若是索引中最后一个位置，则t应该为ST的表长  
+    else  
+        t=ID.elem[p+1].start-1;  
+    while(k!=ST.r[s]&&s<=t)//这里在块里进行顺序查找  
+        s++;  
+    if(s>t)  
+        return 0;  
+    else  
+        return s;  
+}  
