@@ -1,0 +1,44 @@
+特点：用所给关键字与线性表中各元素的关键字逐个比较，直到成功或失败。存储结构通常为顺序结构也可以为链式结构。
+算法思想：在表的一端设置一个称为“监视哨”的附加单元，存放要查找元素的关键字。从表的另一端开始查找，如果在“监视哨”找到要查找元素的关键字，返回失败信息，否则返回相应的下标。
+没有顺序排序的数据：只能顺序查找，如果数据排序了使用顺序查找和折半查找都可以。
+顺序查找：速度慢
+code
+#include<iostream>
+using namespace std;
+
+typedef struct{
+    int r[100];
+    int length;
+}SStable;
+
+//在顺序表ST中顺序查找关键字等于K的元素，若找到，则返回函数值为该元素的位置，否则为0  
+int Search_Seq(SStable &ST,int k) {
+    int i;
+    ST.r[0]=k;//将0号单元作为哨兵，从而避免了每次查找都要判断i是否越界的问题
+    i=ST.length;
+    while(ST.r[i]!=k)  
+        i--;  
+    return i;//即如果查找失败，则返回0  
+}  
+
+//建立需要查找的顺序表
+void CreateTable(SStable &ST,int n)  
+{  
+    int i;  
+    cin>>ST.length;  //顺序表每个节点下标
+    for(i=1;i<=n;i++)  //给顺序表下标从1开始，因为0设置为了“监视哨”  
+        cin>>ST.r[i];    
+} 
+
+int main()  
+{  
+    //freopen("in.txt","r",stdin);  
+    int k;  
+    SStable ST;   
+    CreateTable(ST,30);   
+    k=Search_Seq(ST,120);//顺序查找  
+    cout<<k<<endl;  
+    return 0;
+}  
+
+
