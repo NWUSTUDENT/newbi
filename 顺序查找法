@@ -25,7 +25,7 @@ int Search_Seq(SStable &ST,int k) {
 void CreateTable(SStable &ST,int n)  
 {  
     int i;  
-    cin>>ST.length;  //顺序表每个节点下标
+    cin>>ST.length;  
     for(i=1;i<=n;i++)  //给顺序表下标从1开始，因为0设置为了“监视哨”  
         cin>>ST.r[i];    
 } 
@@ -41,4 +41,18 @@ int main()
     return 0;
 }  
 
+平均查找长度ASL=（n+1）/2；
 
+下面为不设置“监视哨”的顺序查找算法，它在循环控制条件中增加了i>=1，用以判断是否越界。加监视哨可以省去这个条件，从而提高查找效率。
+
+int Search_Seq(SStable &ST,int k) {
+        int i=ST.length;
+        while(i>=1&&ST.r[i]!=k)
+            i--;
+        if(i>=1)
+            return i;
+        else
+            return 0;
+ }
+        
+        
