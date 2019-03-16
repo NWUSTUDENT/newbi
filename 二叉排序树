@@ -51,9 +51,39 @@ void createBST(BSTree *bst){//从键盘输入元素的值，创建相应的二�
         
         }
 }
-假设有n个元素则需要插入n次，创建二叉排序树的时间复杂度为O(nlog2n)。
+假设有n个元素则需要插入n次，创建二叉排序树的时间复杂度为O(nlog2n)。具有同样元素的序列，输入顺序不同，所创建的二叉排序树形态也不同。
+《3》二叉排序树的查找
+因为二叉排序树可以看作是一个有序表，所以在二叉排序树上进行查找和折半查找类似
+算法思想：
+首先将待查关键字key与根结点关键字t进行比较，若：
+    1、key=t，则返回根结点地址
+    2、key<t,则进一步查找左子树
+    3、key>t,则进一步查找右子树
+递归算法：
+    BSTree searchBST(BSTree bst,int key){
+    //在指针bst所指二叉排序树中，递归查找某关键字等于key的元素，若查找成功，返回指向该元素结点指针，否则返回空指针
+            if(bst)  return NULL;
+            else if(bst->key==key)  return bst;
+            else if(bst->key>key)   return searchBST(bst->lchild,key);//在左子树继续查找
+            else return searchBST(bst->rchild,key);
+    }
+ 非递归算法：
+     BSTree searchBST(BSTree bst,int key){
+     //在指针bst所指二叉排序树上查找关键字key的结点，若查找成功，返回指向该元素结点指针，否则返回空指针
+            BSTree q;
+            q=bst;
+            while(q){
+                if(q->key==key)   return q;
+                if(q->key>key)    q=q->lchild;
+                else q=q->rchild;
+            }
+            return NULL;//查找失败
+     
+     }
+     
 
-
+对于需要经常做插入、删除、查找运算的表，宜采用二叉排序树结构。
+《4》二叉排序树的删除
 
 
 
