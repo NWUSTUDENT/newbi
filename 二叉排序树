@@ -6,3 +6,49 @@
 二叉排序树的存储结点为二叉树，使用二叉链表作为存储结构
 ！！二叉排序树的插入与创建
 （1）二叉排序树的插入
+算法思想：
+1>.若二叉树是空树，则key成为二叉排序树的根。
+2>.若二叉排序树非空，则将key与二叉排序树的跟进行比较：
+    如果key的值等于根节点的值，则停止插入
+    如果key的值小于根结点的值，则将key插入左子树
+    如果key的值大于根结点的值，则将key插入到右子树
+ 
+ 二叉排序树的定义
+ typedef struct node{
+    int key;//关键字的值
+    struct node *lchild,*rchild;
+ }BSTNode,*BSTree;
+ 
+ 二叉排序树插入的递归算法
+ void InsertBST(BSTree *bst,int key){
+    BSTree s;
+    if(*bst==NULL){//递归结束条件,空树，将key作为它的根
+        s=(BSTree)malloc(sizeof(BSTNode)); //申请新的节点
+        s->key=key;
+        s->lchild=NULL;
+        s->rchild=NULL;
+        *bst=s;
+    }
+    else if(key<(*bst)->key)){ //将s插入到左子树
+        InsertBST(&((*bst)->lchild),key);
+    }
+    else if(key>(*bst)->key)
+        InsertBST(&((*bst)-rchild),key);
+ }
+ 二叉排序树的插入算法的时间复杂度为O（log2n）。
+ 
+ （2）二叉排序树的创建
+算法思想：
+
+
+
+
+
+
+
+
+
+
+
+
+
